@@ -462,8 +462,6 @@ sub grade_loop {
 	}
 }
 
-#print ("Foo");
-
 #Runs perpetually, sleeping for some interval after each grade loop
 while(1)
 {
