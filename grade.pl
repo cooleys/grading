@@ -6,33 +6,29 @@ my( $graded, $too_many_message, $wrong_file_message , $grade_message);
 my($EMAIL_BUFFER, $SCORE_SUM);
 
 #Basic project information
-$project_name = "CS 161 Programming Test #5";
+$project_name = "CS 152 Lab 1";
 $max_submissions = 3;
-@expected_files =("Project5.java", "Die.java", "Game.java");
+@expected_files =("HelloWorld.java");
 
 #Time between grading loops, in seconds
 $sleep_time = 300;
 
 #Path to class roster file with information to be appended to each grade entry
 #Should be a csv file
-#$class_roster = "/nfs/farm/u1/w/weeksa/proj4_perl/cs161_winter09_students.csv";
-$class_roster = "/nfs/farm/u1/w/weeksa/proj5_perl/cs161_winter09_students.csv";
+$class_roster = "/nfs/farm/u1/w/weeksa/cs152gradetest/cs152_spring11_students.csv";
 
 #Path to java tests
-#$test_path = "/nfs/farm/u1/w/weeksa/proj4_perl/tests/";
-$test_path = "/nfs/farm/u1/w/weeksa/proj5_perl/tests/";
+$test_path = "/nfs/farm/u1/w/weeksa/cs152gradetest/tests/";
 
 #Path to user submission directory
-#$submission_path = "/nfs/farm/u1/w/weeksa/proj4_perl/submissions/";
-#$submission_path = "/nfs/stak/a2/classes/eecs/winter2009/cs161/private/proj5_perl/submissions/";
-$submission_path = "/nfs/farm/u1/w/weeksa/proj5_perl/submissions/";
+$submission_path = "/nfs/farm/u1/w/weeksa/cs152gradetest/submissions/";
 
 #Path to class grade sheet
 #$grade_file = "/nfs/farm/u1/w/weeksa/proj4_perl/PT4_Grades.csv";
-$grade_file = "/nfs/farm/u1/w/weeksa/proj5_perl/PT5_grades.csv";
+$grade_file = "/nfs/farm/u1/w/weeksa/cs152gradetest/test_grades.csv";
 
 #Log file (seldom used)
-$log_file = "/nfs/farm/u1/w/weeksa/proj5_perl/log.txt";
+$log_file = "/nfs/farm/u1/w/weeksa/cs152gradetest/log.txt";
 
 #Messages to send to students
 $grade_message = "Your grade: ";
