@@ -214,12 +214,14 @@ sub grade_expect {
 		if ($output_count eq $num_lines ) { 
 			print "Expected value \"$expected\" found\n";
 			$score = $points;
+			$EMAIL_BUFFER = $EMAIL_BUFFER."Good job you got full points for ".$test_name.".\n";
 		}
 
 		else { #Otherwise, assign a grade of 0 
 			print "Expected value \"$expected\" not found";
 			$score = 0;
-			}
+			$EMAIL_BUFFFER = $EMAIL_BUFFER."You did not get full points for ".$test_name.". You program outputted \"".$output."\" and it should have outputted ".$expected."\"";
+		}
 	}
 
 	#Clean up
@@ -366,7 +368,8 @@ sub grade_submission {
 	#Write the grade to the grade sheet, and put a copy in the submission directory
 	write_grade( $submission, $user_name, $grade_report, $write_class_grade_sheet );
 	
-	$EMAIL_BUFFER = $EMAIL_BUFFER."\n\n\n".$grade_message." ".$grade_report;
+	#More user friendly email generated in grade_expected. but wont work for grade_simple
+	#$EMAIL_BUFFER = $EMAIL_BUFFER."\n\n\n".$grade_message." ".$grade_report;
 }
 
 #Appends a given log to the log file
