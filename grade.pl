@@ -323,7 +323,7 @@ sub grade_submission {
 	
 	#BEGIN GRADE CODE
 	
-    $grade_report = grade_expect( $submission, "Test1", $grade_report, "", "Hello World!", 1, 10 )
+    $grade_report = grade_expect( $submission, "Test1", $grade_report, "", "Hello World!", 1, 10 );
 	
     #$grade_report = grade_simple($submission, "Test1", $grade_report);
 	
