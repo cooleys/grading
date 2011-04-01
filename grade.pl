@@ -323,37 +323,39 @@ sub grade_submission {
 	
 	#BEGIN GRADE CODE
 	
-	$grade_report = grade_simple($submission, "Test1a", $grade_report);
+    $grade_report = grade_expect( $submission, "Test1", $grade_report, "", "Hello World!", 1, 10 )
 	
-	$grade_report = grade_simple($submission, "Test2a", $grade_report);
-	$grade_report = grade_simple($submission, "Test2b", $grade_report);
-	$grade_report = grade_simple($submission, "Test2c", $grade_report);
+    #$grade_report = grade_simple($submission, "Test1", $grade_report);
 	
-	$grade_report = grade_simple($submission, "Test3a", $grade_report);
-	$grade_report = grade_simple($submission, "Test3b", $grade_report);
-	$grade_report = grade_simple($submission, "Test3c", $grade_report);
+	#$grade_report = grade_simple($submission, "Test2a", $grade_report);
+	#$grade_report = grade_simple($submission, "Test2b", $grade_report);
+	#$grade_report = grade_simple($submission, "Test2c", $grade_report);
 	
-	$grade_report = grade_simple($submission, "Test4a", $grade_report);
-	$grade_report = grade_simple($submission, "Test4b", $grade_report);
-	$grade_report = grade_simple($submission, "Test4c", $grade_report);
+	#$grade_report = grade_simple($submission, "Test3a", $grade_report);
+	#$grade_report = grade_simple($submission, "Test3b", $grade_report);
+	#$grade_report = grade_simple($submission, "Test3c", $grade_report);
 	
-	$grade_report = grade_simple($submission, "Test5a", $grade_report);
-	$grade_report = grade_simple($submission, "Test5b", $grade_report);
-	$grade_report = grade_simple($submission, "Test5c", $grade_report);
+	#$grade_report = grade_simple($submission, "Test4a", $grade_report);
+	#$grade_report = grade_simple($submission, "Test4b", $grade_report);
+	#$grade_report = grade_simple($submission, "Test4c", $grade_report);
 	
-	$grade_report = grade_simple($submission, "Test6a", $grade_report);
-	$grade_report = grade_simple($submission, "Test6b", $grade_report);
-	$grade_report = grade_simple($submission, "Test6c", $grade_report);
+	#$grade_report = grade_simple($submission, "Test5a", $grade_report);
+	#$grade_report = grade_simple($submission, "Test5b", $grade_report);
+	#$grade_report = grade_simple($submission, "Test5c", $grade_report);
+	
+	#$grade_report = grade_simple($submission, "Test6a", $grade_report);
+	#$grade_report = grade_simple($submission, "Test6b", $grade_report);
+	#$grade_report = grade_simple($submission, "Test6c", $grade_report);
 	
 	
-	$grade_report = grade_simple($submission, "Test7a", $grade_report);
-	$grade_report = grade_simple($submission, "Test7b", $grade_report);
+	#$grade_report = grade_simple($submission, "Test7a", $grade_report);
+	#$grade_report = grade_simple($submission, "Test7b", $grade_report);
 	
-	$grade_report = grade_simple($submission, "Test8a", $grade_report);
-	$grade_report = grade_simple($submission, "Test8b", $grade_report);
+	#$grade_report = grade_simple($submission, "Test8a", $grade_report);
+	#$grade_report = grade_simple($submission, "Test8b", $grade_report);
 	
-	$grade_report = grade_simple($submission, "Test9a", $grade_report);
-	$grade_report = grade_simple($submission, "Test9b", $grade_report);
+	#$grade_report = grade_simple($submission, "Test9a", $grade_report);
+	#$grade_report = grade_simple($submission, "Test9b", $grade_report);
 	
 	
 	#END GRADE CODE
