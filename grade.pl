@@ -32,7 +32,7 @@ $log_file = "/nfs/farm/u1/w/weeksa/cs152gradetest/log.txt";
 
 #Messages to send to students
 $grade_message = "Your grade: ";
-$too_many_message = "Your latest submission was not recorded because you have already submitted $max_submissions times.\n Had you submitted few enough times, your grade would have been: \n";
+$too_many_message = "Your latest submission was not recorded because you have already submitted $max_submissions times.\nHad you submitted few enough times, your grade would have been: \n";
 $wrong_file_message = "You did not submit the correct files. Please submit @expected_files. You have not used up a submission.";
 
 
@@ -67,7 +67,7 @@ sub grade_equals {
 	my($test_errors, $score );
 	
 	print "\nTesting simple $test_name at $submission:\n";
-	print "... Copying $test_name.java into submission directory\n";
+	print "...Copying $test_name.java into submission directory\n";
 	
 	#Copy test class $test_name.java to user directory $user_dir
 	`cp $test_path$test_name.java $submission`;
@@ -179,7 +179,7 @@ sub grade_expect {
 	my( $submission, $test_name, $grade_report, $input, $expected, $num_lines, $points ) = @_;
 	my($test_errors, $score, $output, $output_count);
 	
-	print "\nTesting user interaction $test_name at $submission:\n";
+	print "\n$test_name at $submission:\n";
 	print "... Copying $test_name.java into submission directory\n";
 	
 	#Copy test class $test_name.java to user directory $user_dir
@@ -214,13 +214,14 @@ sub grade_expect {
 		if ($output_count eq $num_lines ) { 
 			print "Expected value \"$expected\" found\n";
 			$score = $points;
-			$EMAIL_BUFFER = $EMAIL_BUFFER."Good job you got full points for ".$test_name.".\n";
+			$EMAIL_BUFFER = $EMAIL_BUFFER.$test_name." = ".$score."/".$points.".\n";
 		}
 
 		else { #Otherwise, assign a grade of 0 
 			print "Expected value \"$expected\" not found";
 			$score = 0;
-			$EMAIL_BUFFFER = $EMAIL_BUFFER."You did not get full points for ".$test_name.". You program outputted \"".$output."\" and it should have outputted ".$expected."\"";
+			$EMAIL_BUFFER = $EMAIL_BUFFER.$test_name." = ".$score."/".$points.".\n";
+			$EMAIL_BUFFER = "Your output:\n".$output."\n Desired output:\n".$expected."\n";
 		}
 	}
 
@@ -369,7 +370,7 @@ sub grade_submission {
 	write_grade( $submission, $user_name, $grade_report, $write_class_grade_sheet );
 	
 	#More user friendly email generated in grade_expected. but wont work for grade_simple
-	#$EMAIL_BUFFER = $EMAIL_BUFFER."\n\n\n".$grade_message." ".$grade_report;
+	$EMAIL_BUFFER = $EMAIL_BUFFER."\n\n\n".$grade_message." ".$grade_report;
 }
 
 #Appends a given log to the log file
@@ -455,8 +456,9 @@ sub grade_loop {
 				
 			
 				#Email the buffer to the user
-				send_email("$user_name\@engr.orst.edu", $EMAIL_BUFFER );
-				
+				#send_email("$user_name\@engr.orst.edu", $EMAIL_BUFFER );
+				print "E-mail Buffer: ";
+				print $EMAIL_BUFFER;
 			}
 			else {
 				#Already graded (or marked as invalid), skip silently
