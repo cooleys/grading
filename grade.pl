@@ -375,15 +375,6 @@ sub grade_submission {
 	$EMAIL_BUFFER = $EMAIL_BUFFER."\n\n\n".$grade_message." ".$grade_report."\n(Last Name, First Name, ONID, Date, Test 1 Grade, ..., Test n Grade, Final Score,)";
 }
 
-#Appends a given log to the log file
-sub append_log {
-	my( $entry ) = @_;
-	open(LOG, ">>", $log_file);
-	print LOG $entry.'\n';
-	close (LOG);
-}
-
-
 #Returns 0 if the user has submitted a valid submission fewer than $max_submissions times.  Otherwise returns 1.
 #Marks the submission as graded if the user has submitted too many times
 sub too_many_submissions {
