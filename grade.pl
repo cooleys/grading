@@ -43,10 +43,10 @@ sub java_compile {
 	my($errors);
 	
 	#Compile $file using $classPath
-	print "...Compiling $file with class path: $class_path\n";
+	print LOG "...Compiling $file with class path: $class_path\n";
 	$errors = `javac -cp $class_path $file 2>&1`;
 	
-	print "...ERRORS: $errors\n";
+	print LOG "...ERRORS: $errors\n";
 	return $errors;
 }
 
@@ -55,7 +55,7 @@ sub java_run {
 	my ($class_path, $class, $heredoc ) = @_;
 	my ($output );
 	
-	print "...Running $class with class path: $class_path\n";
+	print LOG "...Running $class with class path: $class_path\n";
 	$output = `java -cp $class_path $class  >&1 <<END\n $heredoc \nEND`;
 	
 	return $output;
@@ -66,8 +66,8 @@ sub grade_equals {
 	my($submission, $test_name, $grade_report, $input, $expect, $points) = @_;
 	my($test_errors, $score );
 	
-	print "\nTesting simple $test_name at $submission:\n";
-	print "...Copying $test_name.java into submission directory\n";
+	print LOG "\nTesting simple $test_name at $submission:\n";
+	print LOG "...Copying $test_name.java into submission directory\n";
 	
 	#Copy test class $test_name.java to user directory $user_dir
 	`cp $test_path$test_name.java $submission`;
@@ -107,10 +107,10 @@ sub grade_equals {
 	}
 
 	#Clean up
-	print "... Cleaning up\n";
+	print LOG "... Cleaning up\n";
 	`rm -f $submission$test_name.* $submission*.class $test_name.txt`;
 	
-	print "score: $score\n";	
+	print LOG "score: $score\n";	
 	#Append this test's score onto the grade report and return the grade report
 	$grade_report = $grade_report.$score.', ';
 	$SCORE_SUM += int($score);
@@ -130,8 +130,8 @@ sub grade_simple {
 	my($submission, $test_name, $grade_report, $input) = @_;
 	my($test_errors, $score );
 	
-	print "\nTesting simple $test_name at $submission:\n";
-	print "... Copying $test_name.java into submission directory\n";
+	print LOG "\nTesting simple $test_name at $submission:\n";
+	print LOG "... Copying $test_name.java into submission directory\n";
 	
 	#Copy test class $test_name.java to user directory $user_dir
 	`cp $test_path$test_name.java $submission`;
@@ -164,10 +164,10 @@ sub grade_simple {
 	}
 
 	#Clean up
-	print "... Cleaning up\n";
+	print LOG "... Cleaning up\n";
 	`rm -f $submission$test_name.* $submission*.class $test_name.txt`;
 	
-	print "score: $score\n";	
+	print LOG "score: $score\n";	
 	#Append this test's score onto the grade report and return the grade report
 	$grade_report = $grade_report.$score.', ';
 	$SCORE_SUM += int($score);
@@ -180,8 +180,8 @@ sub grade_expect {
 	my( $submission, $test_name, $grade_report, $input, $expected, $num_lines, $points ) = @_;
 	my($test_errors, $score, $output, $output_count);
 	
-	print "\n$test_name at $submission:\n";
-	print "... Copying $test_name.java into submission directory\n";
+	print LOG "\n$test_name at $submission:\n";
+	print LOG "... Copying $test_name.java into submission directory\n";
 	
 	#Copy test class $test_name.java to user directory $user_dir
 	`cp $test_path$test_name.java $submission`;
@@ -201,7 +201,7 @@ sub grade_expect {
 		#Run test that we compiled
 		$output = java_run( $submission, $test_name, $input );
 		
-		print $output;
+		print LOG $output;
 		$output_count = `echo \'$output\' | grep \'$expected\' | wc -l >&1`;
 		
 		#Remove the temporary file
@@ -214,13 +214,13 @@ sub grade_expect {
 		
 		#If we find the desired output at least once, give full credit
 		if ($output_count eq $num_lines ) { 
-			print "Expected value \"$expected\" found\n";
+			print LOG "Expected value \"$expected\" found\n";
 			$score = $points;
 			$EMAIL_BUFFER = $EMAIL_BUFFER.$test_name." = ".$score."/".$points.".\n";
 		}
 
 		else { #Otherwise, assign a grade of 0 
-			print "Expected value \"$expected\" not found";
+			print LOG "Expected value \"$expected\" not found";
 			$score = 0;
 			$EMAIL_BUFFER = $EMAIL_BUFFER.$test_name." = ".$score."/".$points.".\n";
 			$EMAIL_BUFFER = $EMAIL_BUFFER."Your output:\n".$output."\nDesired output:\n".$expected."\n";
@@ -228,9 +228,9 @@ sub grade_expect {
 	}
 
 	#Clean up
-	print "... Cleaning up\n";
+	print LOG "... Cleaning up\n";
 	`rm -f $submission$test_name.* $submission*.class $test_name.txt`;
-	print "score: $score\n";	
+	print LOG "score: $score\n";	
 	
 	#Append this test's score onto the grade report and return the grade report
 	$grade_report = $grade_report.$score.', ';
@@ -248,7 +248,7 @@ sub is_valid_submission {
 	
 	foreach(@expected_files) {
 		if ( !(-e $submission.$_) ) {
-			print "Marking $submission as invalid file, and graded\n";
+			print LOG "Marking $submission as invalid file, and graded\n";
 			system("touch $submission"."graded.txt");
 			system("touch $submission"."invalid.txt");
 			return 0;
@@ -280,7 +280,7 @@ sub write_grade {
 	my( $submission, $user_name, $grade_report , $write_class_grade_sheet) = @_;
 	
 
-	print "Writing grade to class grade sheet\n";
+	print LOG "Writing grade to class grade sheet\n";
 	if( $write_class_grade_sheet) {	
 		#Write grade to class grade sheet
 		open(CLASS_GRADES, ">>", $grade_file);
@@ -289,7 +289,7 @@ sub write_grade {
 	}
 
 	#Write grade to submission folder
-	print "Writing grade to submission grade sheet\n";
+	print LOG "Writing grade to submission grade sheet\n";
 	open(STUDENT_GRADE, ">>", $submission."grade.csv");
 	print STUDENT_GRADE "$grade_report\n";
 	close(STUDENT_GRADE);
@@ -307,8 +307,8 @@ sub grade_submission {
 	my ($submission, $user_name, $write_class_grade_sheet) = @_;
 	my ( $date, $grade_report, $roster_info );
 
-	print "\n\nGrading $submission, with user name: $user_name\n";
-   	print "Marking $submission as graded\n";
+	print LOG "\n\nGrading $submission, with user name: $user_name\n";
+   	print LOG "Marking $submission as graded\n";
 	system("touch $submission"."graded.txt");
 	
 	$SCORE_SUM = 0;
@@ -366,7 +366,7 @@ sub grade_submission {
 	#END GRADE CODE
 
 	$grade_report = $grade_report.$SCORE_SUM.", ";
-	print "GRADE_REPORT: $grade_report\n";
+	print LOG "GRADE_REPORT: $grade_report\n";
 
 	#Write the grade to the grade sheet, and put a copy in the submission directory
 	write_grade( $submission, $user_name, $grade_report, $write_class_grade_sheet );
@@ -393,7 +393,7 @@ sub too_many_submissions {
 		return 0;
 	}
 	
-	print "Marking $submission as too many submissions, and graded\n";
+	print LOG "Marking $submission as too many submissions, and graded\n";
 	system("touch $submission"."graded.txt");
 	system("touch $submission"."too_many.txt");
 	
@@ -443,19 +443,19 @@ sub grade_loop {
 				}
 				else {
 					#The submission is invalid, skip and email the user	
-					print "Skipping $submission with user name: $user_name (invalid submission)\n";
+					print LOG "Skipping $submission with user name: $user_name (invalid submission)\n";
 					$EMAIL_BUFFER = $EMAIL_BUFFER. $wrong_file_message;
 				}
 				
 			
 				#Email the buffer to the user
 				send_email("$user_name\@engr.orst.edu", $EMAIL_BUFFER );
-				print "E-mail Buffer: ";
-				print $EMAIL_BUFFER;
+				print LOG "E-mail Buffer: ";
+				print LOG $EMAIL_BUFFER;
 			}
 			else {
 				#Already graded (or marked as invalid), skip silently
-				print "Skipping $submission with user name: $user_name (already graded!)\n";
+				print LOG "Skipping $submission with user name: $user_name (already graded!)\n";
 			}
 			
 		}
@@ -466,15 +466,17 @@ sub grade_loop {
 while(1)
 {
 	my($date);
-	print "\nBEGIN GRADING LOOP\n\n\n";
+	
+	open(LOG, ">>", $log_file);
+	print LOG "\nBEGIN GRADING LOOP\n\n\n";
 	
 	grade_loop();
 	
 	$date = `date +%D\\ %H:%M`;
 	chomp( $date );
 	
-	print "\n\n\nSLEEPING FOR $sleep_time SECONDS \@ $date\n\n\n";
+	print LOG "\n\n\nSLEEPING FOR $sleep_time SECONDS \@ $date\n\n\n";
+	close(LOG);
 	sleep($sleep_time);
 }
 
-#print( triangle_reverse(5));
